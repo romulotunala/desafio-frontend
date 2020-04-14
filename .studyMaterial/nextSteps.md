@@ -1,0 +1,6 @@
+- [x] Instalar Vue e criar o projeto;
+- [x] Estudar Vuex;
+- [ ] Instalar e configurar o VUEX;
+- [ ] Testar `vue-resource` para usar no lugar no `Axios`;
+- [ ] Estudar Async-Await;
+- [ ] Criar a requição do [AccuWeather](https://developer.accuweather.com/user/me/apps) de busca da cidade (Autocomplete search)[https://developer.accuweather.com/accuweather-locations-api/apis/get/locations/v1/cities/autocomplete];
