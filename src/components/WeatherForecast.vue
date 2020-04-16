@@ -49,7 +49,14 @@
           id="inputGroup" 
           onsubmit="searchCity()"
         >
-            <input type="text" class="inputGroup-input" id="city" placeholder="Insira aqui o nome da cidade" onclick="clearInputCity()">
+					<input  class="inputGroup-input"
+						type="text"
+						id="city"
+						placeholder="Insira aqui o nome da cidade"
+						onclick="clearInputCity()"
+						autocomplete="off"
+						@change='this.citiesSearch'
+					>
           <button
             type="submit" 
             class="material-icons inputGroup-icon"		    
@@ -60,6 +67,7 @@
       <hr>
       <section class="containerMain-item metropolis">		
         <h2 class="metropolis-title">Capitais</h2>
+				<p v-for="city in cities" :key='city.name'>{{ city.name }}</p>
         <table class="metropolis-weather">
           <thead class="metropolisWeather-head" id="metropolis-head--1">
           </thead>
@@ -77,19 +85,26 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'WeatherForecast', 
-  porps: {},
+  computed: {
+		...mapGetters([
+			'cities'
+		]),
+	},
+	methods: {
+		...mapActions([
+			'citiesSearch'
+		])
+	},
 }
 </script>
 <style scoped>
-/* @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'); */
-
 /*#fcb604 - amarelo fundo*/
 /*#e47404 - laranjado fundo*/
 /*#2b2922 - cinza*/
-
-
 .body{
 	width: 50%;
 	min-width: 600px;
