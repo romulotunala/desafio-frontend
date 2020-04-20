@@ -47,3 +47,28 @@ Mobile responsivo:
 * Branches com readme e instruções de implantação serão bem vindos.
 * Pré-processadores CSS como Stylus ou LESS também.
 * Que tal utilizar BEM nos identificadores css? http://getbem.com/naming/ 
+
+# Project -> desafio-frontend
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
