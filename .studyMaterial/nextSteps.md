@@ -1,0 +1,10 @@
+- [x] Instalar Vue e criar o projeto;
+- [x] Estudar Vuex;
+- [x] Instalar e configurar o VUEX;
+- [x] Testar `vue-resource` para usar no lugar no `Axios`;
+- [x] Criar a requição do [AccuWeather](https://developer.accuweather.com/user/me/apps) de busca da cidade [Autocomplete search](https://developer.accuweather.com/accuweather-locations-api/apis/get/locations/v1/cities/autocomplete)
+- [ ] Componentizar aplicação;
+- [ ] Rendirizar lista de cidades da resposta autocomplete;
+- [ ] Estruturar VUEX de acordo com a componetização (decidir estrutura) - ref.: [forum](https://github.com/vuejs-br/forum/issues/2), [artigo](https://blog.codecasts.com.br/arquitetura-de-projetos-vue-js-com-ddd-a2bc26817793) ;
+- [ ] Estudar Async-Await;
+- [ ] Criar action para montagem do componente de resposta da busca por cidades;
