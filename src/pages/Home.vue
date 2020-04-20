@@ -10,9 +10,9 @@
         <p class="boxResult-localityWeather" id="boxResult-localityWeather">20ºC Nublado</p>
         <div class="boxResult-weatherDetail--container">
           <div class="boxResult-weatherDetail">
-            <i class="material-icons weatherDetail-arrow" style="">arrow_downward</i>
+            <i class="material-icons weatherDetail-arrow">arrow_downward</i>
             <p class="weatherDetail-value" id="weatherDetail-value--high">16º</p>
-            <i class="material-icons weatherDetail-arrow" style="">arrow_upward</i>
+            <i class="material-icons weatherDetail-arrow">arrow_upward</i>
             <p class="weatherDetail-value" id="weatherDetail-value--low">25º</p>
           </div>
           <p class="boxResult-weatherDetail">Sensação<span class="weatherDetail-value" id="weatherDetail-value--chill">19ºC</span></p>
@@ -43,29 +43,9 @@
           </p>
         </div>
       </section>
-      <section class="containerMain-item">
-        <form 
-          class="mainItem-inputGroup" 
-          id="inputGroup" 
-          onsubmit="searchCity()"
-        >
-					<input  class="inputGroup-input"
-						type="text"
-						id="city"
-						placeholder="Insira aqui o nome da cidade"
-						onclick="clearInputCity()"
-						autocomplete="off"
-						@change='this.citiesSearch'
-					>
-          <button
-            type="submit" 
-            class="material-icons inputGroup-icon"		    
-            style="font-size:35px;"
-          >search</button>
-          </form>
-      </section>
+      <Search />
       <hr>
-      <section class="containerMain-item metropolis">		
+      <!-- <section class="containerMain-item metropolis">		
         <h2 class="metropolis-title">Capitais</h2>
 				<p v-for="city in cities" :key='city.name'>{{ city.name }}</p>
         <table class="metropolis-weather">
@@ -80,24 +60,17 @@
           <tbody class="metropolisWeather-body" id="metropolis-body--2">
           </tbody>
         </table>
-      </section>
+      </section> -->
     </main>
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import Search from '../components/Search';
 
 export default {
-  name: 'WeatherForecast', 
-  computed: {
-		...mapGetters([
-			'cities'
-		]),
-	},
-	methods: {
-		...mapActions([
-			'citiesSearch'
-		])
+	name: 'Home', 
+	components: {
+		Search
 	},
 }
 </script>
@@ -135,15 +108,7 @@ hr{
 	justify-content: flex-start;
 	align-items: center;
 }
-.containerMain-item{
-	width: 100%;
-	height:10%;
-	min-height: 60px;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	
-}
+
 .mainItem-boxResult{
 	width: 70%;
 	min-height: 200px;
@@ -230,41 +195,7 @@ hr{
 .resumeWeather-week span{
 	color: #e47404;
 }
-.mainItem-inputGroup{
-	width: 70%;
-	height: 100%;
-	background-color: #FFF;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.inputGroup-input{
-	width: 85%;
-	height: 100%;
-	padding: 20px;
-	border:none;
-	font-size: 20px;
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 400;
-}
-.inputGroup-input:focus{
-	outline: none;
-}
-.inputGroup-addon{
-	width: 15%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.inputGroup-icon{
-	color: #666;
-	background:transparent;
-	border:none;
-}
-.inputGroup-icon:focus{
-	outline: none;
-}
+
 .metropolis{
 	width: 60%;
 	height: auto;
@@ -289,12 +220,12 @@ hr{
 	max-height: 200px;
 
 }
-.metropolisWeather-head{
-	/*background-color: blue;*/
+/* .metropolisWeather-head{
+	background-color: blue;
 }
 .metropolisWeather-head__tr{
 
-}
+} */
 .head__tr-item{
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
@@ -305,9 +236,9 @@ hr{
 .metropolisWeather-body{
 	max-width: 100%;
 }
-.metropolisWeather-body__tr{
+/* .metropolisWeather-body__tr{
 
-}
+} */
 .body__tr-item{
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 700;
