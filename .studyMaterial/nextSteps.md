@@ -6,7 +6,8 @@
 - [x] Componentizar aplicação;
 - [x] Rendirizar lista de cidades da resposta autocomplete;
 - [x] Criar actions para montagem do componente de resposta da busca por cidades;
-- [ ] Corrigir nomemclatura das classes do CSS do componente `LocalWeatherForecast`;
+- [ ] Criar cenários de erros para as requisições;
+- [ ] Corrigir nomenclatura das classes do CSS do componente `LocalWeatherForecast`;
 - [ ] Componentizar `CapitalsWeataherForecast`;
 - [ ] Criar actions para montagem do componente `CapitalsWeataherForecast`;
 - [ ] Corrigir nomemclatura das classes do CSS do componente `CapitalsWeataherForecast`;
