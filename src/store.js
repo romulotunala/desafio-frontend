@@ -9,10 +9,12 @@ const store = new Vuex.Store({
   state: {
     isFetching: {
       citiesSearch: false,
+      currentConditions: false,
+      dailyForecast: false,
     },
     cities: [],
     selectedCity: null,
-    dailyForecast: null,
+    resumeForecast: null,
   },
   mutations: {
     isFetching: (state, {name, value}) => {
@@ -32,16 +34,21 @@ const store = new Vuex.Store({
         ...info,
       };
     },
-    SAVE_DAILY_FORECAST: (state, info) => {
-      state.dailyForecast = {
+    SAVE_RESUME_FORECAST: (state, info) => {
+      state.resumeForecast = {
+        ...state.resumeForecast,
         ...info,
-      }
+      };
+    },
+    CLEAR_RESUME_FORECAST: (state) => {
+      state.resumeForecast = null;
     }
   },
   getters: {
     isFetching: state => state.isFetching,
     cities: state => state.cities,
     selectedCity: state => state.selectedCity,
+    resumeForecast: state => state.resumeForecast,
   },
   actions: {
     citiesSearch: ({ commit }, info) => {
@@ -61,21 +68,52 @@ const store = new Vuex.Store({
     },
     saveSelectedCity: ({ dispatch, commit }, info) => {
       commit('SAVE_SELECTED_CITY', info);
+      dispatch('currentConditions', info.Key);
       dispatch('dailyForecast', info.Key);
-    }, 
-    dailyForecast: ({ commit }, key) => {
-      const endpoint = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day';
+    },
+    clearResumeForecast: ({ commit }) => {
+      commit('CLEAR_RESUME_FORECAST');
+    },
+    currentConditions: ({ commit }, info) => {
+      const endpoint = 'http://dataservice.accuweather.com/currentconditions/v1/';
       const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
-      commit('isFetching', {name: 'dailyForecast', value: true});
+      commit('isFetching', {name: 'currentConditions', value: true});
       return (
-        Vue.http.get(`${endpoint}/${key}?apikey=${apikey}&language=pt-br&metric=true`)
+        Vue.http.get(`${endpoint}${info}?apikey=${apikey}&language=pt-br&details=true`)
         .then(response => {
-          console.log('response: ', response);
-          commit('isFetching', {name: 'dailyForecast', value: false});
-          commit('SAVE_DAILY_FORECAST', response.body);
+          const data = response.body[0];
+          const payload = {
+            temperature: data.Temperature.Metric.Value,
+            temperatureMin: '',
+            temperatureMax: '',
+            realFeelTemperature: data.RealFeelTemperature.Metric.Value,
+            windSpeed: data.Wind.Speed.Metric.Value,
+            relativeHumidity: data.RelativeHumidity,
+            weatherText: data.WeatherText,
+          };
+          commit('isFetching', {name: 'currentConditions', value: false});
+          commit('SAVE_RESUME_FORECAST', payload);
         })
       )
     },
+    dailyForecast: ({ commit }, info) => {
+      const endpoint = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day/';
+      const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
+      commit('isFetching', {name: 'dailyForecast', value: true});
+      return (
+        Vue.http.get(`${endpoint}${info}?apikey=${apikey}&language=pt-br&metric=true`)
+        .then(response => {
+          console.log('response: ', response);
+          const data = response.body;
+          const payload = {
+            temperatureMin: {...data.DailyForecasts[0].Temperature.Minimum},
+            temperatureMax: {...data.DailyForecasts[0].Temperature.Maximum},
+          };
+          commit('isFetching', {name: 'dailyForecast', value: false});
+          commit('SAVE_RESUME_FORECAST', payload);
+        })
+      )
+    }
   }
 })
 
