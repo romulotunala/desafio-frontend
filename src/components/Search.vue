@@ -29,7 +29,7 @@
       <li class="dropdownContent__item"
         v-for="city in cities"
         :key='city.Key'
-        v-on:click='selectCity(city)'
+        @click='selectCity(city)'
       >
         {{ city.LocalizedName }}, {{ city.AdministrativeArea.LocalizedName }}, {{ city.Country.ID }}
       </li>
@@ -50,14 +50,16 @@ export default {
   },
   computed: {
 		...mapGetters([
-      'cities', 
       'isFetching',
+      'cities',
+      'selectedCity',
 		]), 
 	},
 	methods: {
 		...mapActions([
       'citiesSearch',
       'clearCities',
+      'saveSelectedCity',
     ]),
     handleCity(ev) {
       const { value } = ev.target;
@@ -69,7 +71,8 @@ export default {
     selectCity(city) {
       this.city = city;
       this.clearCities();
-    }
+      this.saveSelectedCity(city);
+    },
 	},
 
 }

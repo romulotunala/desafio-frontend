@@ -11,6 +11,8 @@ const store = new Vuex.Store({
       citiesSearch: false,
     },
     cities: [],
+    selectedCity: null,
+    dailyForecast: null,
   },
   mutations: {
     isFetching: (state, {name, value}) => {
@@ -20,20 +22,31 @@ const store = new Vuex.Store({
       };
     },
     addCitiesSearch: (state, paylod) => {
-      state.cities = paylod
+      state.cities = paylod;
     },
     CLEAR_CITIES: (state) => {
-      state.cities = []
+      state.cities = [];
+    },
+    SAVE_SELECTED_CITY: (state, info) => {
+      state.selectedCity = {
+        ...info,
+      };
+    },
+    SAVE_DAILY_FORECAST: (state, info) => {
+      state.dailyForecast = {
+        ...info,
+      }
     }
   },
   getters: {
-    cities: state => state.cities,
     isFetching: state => state.isFetching,
+    cities: state => state.cities,
+    selectedCity: state => state.selectedCity,
   },
   actions: {
     citiesSearch: ({ commit }, info) => {
       const endpoint = 'http://dataservice.accuweather.com/locations/v1/cities/autocomplete';
-      const apikey = 'nbM0uVQJQAsATsLBDadbN8jlVTAwE83Z';
+      const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
       commit('isFetching', {name: 'citiesSearch', value: true});
       return (
         Vue.http.get(`${endpoint}?apikey=${apikey}&q=${info}&language=pt-br`)
@@ -45,7 +58,24 @@ const store = new Vuex.Store({
     },
     clearCities: ({ commit }) => {
       commit('CLEAR_CITIES');
-    }
+    },
+    saveSelectedCity: ({ dispatch, commit }, info) => {
+      commit('SAVE_SELECTED_CITY', info);
+      dispatch('dailyForecast', info.Key);
+    }, 
+    dailyForecast: ({ commit }, key) => {
+      const endpoint = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day';
+      const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
+      commit('isFetching', {name: 'dailyForecast', value: true});
+      return (
+        Vue.http.get(`${endpoint}/${key}?apikey=${apikey}&language=pt-br&metric=true`)
+        .then(response => {
+          console.log('response: ', response);
+          commit('isFetching', {name: 'dailyForecast', value: false});
+          commit('SAVE_DAILY_FORECAST', response.body);
+        })
+      )
+    },
   }
 })
 
