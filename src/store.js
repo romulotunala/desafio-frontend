@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueResource from 'vue-resource'
+import moment from 'moment';
 
 Vue.use(Vuex)
 Vue.use(VueResource)
@@ -9,8 +10,7 @@ const store = new Vuex.Store({
   state: {
     isFetching: {
       citiesSearch: false,
-      currentConditions: false,
-      dailyForecast: false,
+      resumeForecast: false,
     },
     cities: [],
     selectedCity: null,
@@ -43,6 +43,7 @@ const store = new Vuex.Store({
     CLEAR_RESUME_FORECAST: (state) => {
       state.resumeForecast = null;
     }
+
   },
   getters: {
     isFetching: state => state.isFetching,
@@ -77,7 +78,7 @@ const store = new Vuex.Store({
     currentConditions: ({ commit }, info) => {
       const endpoint = 'http://dataservice.accuweather.com/currentconditions/v1/';
       const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
-      commit('isFetching', {name: 'currentConditions', value: true});
+      commit('isFetching', {name: 'resumeForecast', value: true});
       return (
         Vue.http.get(`${endpoint}${info}?apikey=${apikey}&language=pt-br&details=true`)
         .then(response => {
@@ -89,15 +90,16 @@ const store = new Vuex.Store({
             relativeHumidity: data.RelativeHumidity,
             weatherText: data.WeatherText,
           };
-          commit('isFetching', {name: 'currentConditions', value: false});
+          commit('isFetching', {name: 'resumeForecast', value: false});
           commit('SAVE_RESUME_FORECAST', payload);
         })
       )
     },
     dailyForecast: ({ commit }, info) => {
-      const endpoint = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day/';
+      const endpoint = 'http://dataservice.accuweather.com/forecasts/v1/daily/5day/';
       const apikey = 'NpnEG1O1RDgXNBgAVGDmK4FkgmBQOR5H';
-      commit('isFetching', {name: 'dailyForecast', value: true});
+      commit('isFetching', {name: 'resumeForecast', value: true});
+      moment.locale('pt-BR');
       return (
         Vue.http.get(`${endpoint}${info}?apikey=${apikey}&language=pt-br&metric=true`)
         .then(response => {
@@ -106,8 +108,30 @@ const store = new Vuex.Store({
           const payload = {
             temperatureMin: {...data.DailyForecasts[0].Temperature.Minimum},
             temperatureMax: {...data.DailyForecasts[0].Temperature.Maximum},
+            nextDays: [
+              {
+                day: moment(data.DailyForecasts[1].Date).format('dddd'),
+                temperatureMin: {...data.DailyForecasts[1].Temperature.Minimum},
+                temperatureMax: {...data.DailyForecasts[1].Temperature.Maximum},
+              },
+              {
+                day: moment(data.DailyForecasts[2].Date).format('dddd'),
+                temperatureMin: {...data.DailyForecasts[2].Temperature.Minimum},
+                temperatureMax: {...data.DailyForecasts[2].Temperature.Maximum},
+              },
+              {
+                day: moment(data.DailyForecasts[3].Date).format('dddd'),
+                temperatureMin: {...data.DailyForecasts[3].Temperature.Minimum},
+                temperatureMax: {...data.DailyForecasts[3].Temperature.Maximum},
+              },
+              {
+                day: moment(data.DailyForecasts[4].Date).format('dddd'),
+                temperatureMin: {...data.DailyForecasts[4].Temperature.Minimum},
+                temperatureMax: {...data.DailyForecasts[4].Temperature.Maximum},
+              },
+            ],
           };
-          commit('isFetching', {name: 'dailyForecast', value: false});
+          commit('isFetching', {name: 'resumeForecast', value: false});
           commit('SAVE_RESUME_FORECAST', payload);
         })
       )

@@ -5,6 +5,11 @@
     </header>
     <main class="containerMain">
       <LocalWeatherForecast v-if='resumeForecast && !isFetching.resumeForecast' />
+			<img class=containerMain__loadingIcon
+				v-if='isFetching.resumeForecast'
+				:src="require('../../public/assets/loader-white.svg')"
+				alt="Loading"
+			/>
       <Search />
       <hr>
       <!-- <section class="containerMain-item metropolis">		
@@ -80,6 +85,11 @@ hr{
 	flex-flow: column nowrap;
 	justify-content: flex-start;
 	align-items: center;
+}
+
+.containerMain__loadingIcon{
+	width: 50px;
+	margin-bottom: 30px;
 }
 
 .metropolis{

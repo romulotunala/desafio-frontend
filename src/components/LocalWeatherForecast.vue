@@ -1,9 +1,9 @@
 <template>
   <section class="containerMain-item mainItem-boxResult">
     <button
-      class="boxResult-btnClose"
+      class="material-icons boxResult-btnClose"
       @click='clearResumeForecast'
-    >X</button>
+    >clear</button>
     <p class="boxResult-locality" id="boxResult-locality">
       {{ selectedCity.LocalizedName }}, {{ selectedCity.AdministrativeArea.ID}} - {{ selectedCity.Country.LocalizedName }}
     </p>
@@ -40,25 +40,15 @@
     </div>
     <hr>
     <div class="boxResult-resumeWeather">
-      <p class="resumeWeather-week">
-        Terça <br>
-        <span>18º 26º</span>
-      </p>
-      <p class="resumeWeather-week">
-        Quarta <br>
-        <span>18º 28º</span>
-      </p>
-      <p class="resumeWeather-week">
-        Quinta <br>
-        <span>19º 30º</span>
-      </p>
-      <p class="resumeWeather-week">
-        Sexta <br>
-        <span>18º 26º</span>
-      </p>
-      <p class="resumeWeather-week">
-        Sábado <br>
-        <span>18º 26º</span>
+      <p class="resumeWeather-week"
+        v-for='day in resumeForecast.nextDays'
+        :key='day.day'
+      >
+        {{ day.day.replace(/-.*/, '') }} <br>
+        <span>
+          {{ Math.round(day.temperatureMax.Value) }}º 
+          {{ Math.round(day.temperatureMin.Value) }}º
+        </span>
       </p>
     </div>
   </section>

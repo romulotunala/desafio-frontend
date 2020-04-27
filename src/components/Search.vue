@@ -13,7 +13,8 @@
       >
       <button
         class="inputGroup__icon"
-        type="button" 
+        type="button"
+        @click="handleCity"
       >
         <img :src="require('../../public/assets/search_darkGray.svg')" alt="search icon"/>
       </button>
@@ -63,10 +64,12 @@ export default {
     ]),
     handleCity(ev) {
       const { value } = ev.target;
-      this.city = {
-        LocalizedName: value.trim()
-      };
-      this.citiesSearch(value.trim());
+      if(value) {
+        this.city = {
+          LocalizedName: value.trim()
+        };
+      }
+      this.citiesSearch(this.city.LocalizedName);
     },
     selectCity(city) {
       this.city = city;
@@ -92,7 +95,7 @@ export default {
     height: 100%;
     background-color: #FFF;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border: 1px solid #eee;
   }
@@ -100,6 +103,7 @@ export default {
     width: 85%;
     height: 100%;
     padding: 20px;
+    padding-right: 0;
     border:none;
     font-size: 20px;
     font-family: 'Open Sans', sans-serif;
@@ -111,6 +115,7 @@ export default {
   .inputGroup__icon{
     width: 30px;
     height: 100%;
+    margin: 0 20px;
     background:transparent;
     border:none;
     cursor: pointer;
@@ -123,16 +128,17 @@ export default {
   }
   .search__dropdownContent {
     width: 70%;
-    /* min-height: 100%; */
+    max-height: 250px;
+    overflow-x: auto;
     background-color: #FFF;
     position: absolute;
     top: 100%;
     list-style: none;
   }
-  .search__dropdownContent li {
+  .dropdownContent__item {
     padding: 5px 20px;
   }
-  .search__dropdownContent li:hover {
+  .dropdownContent__item:hover {
     background: #eee;
   }
 </style>
