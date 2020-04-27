@@ -84,8 +84,6 @@ const store = new Vuex.Store({
           const data = response.body[0];
           const payload = {
             temperature: data.Temperature.Metric.Value,
-            temperatureMin: '',
-            temperatureMax: '',
             realFeelTemperature: data.RealFeelTemperature.Metric.Value,
             windSpeed: data.Wind.Speed.Metric.Value,
             relativeHumidity: data.RelativeHumidity,

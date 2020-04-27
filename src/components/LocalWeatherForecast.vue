@@ -8,33 +8,33 @@
       {{ selectedCity.LocalizedName }}, {{ selectedCity.AdministrativeArea.ID}} - {{ selectedCity.Country.LocalizedName }}
     </p>
     <p class="boxResult-localityWeather">
-      {{ resumeForecast.temperature }}ºC
+      {{ Math.round(resumeForecast.temperature) }}ºC
       <span>{{ resumeForecast.weatherText }}</span>
     </p>
     <div class="boxResult-weatherDetail--container">
       <div class="boxResult-weatherDetail">
         <span class="material-icons weatherDetail-arrow">arrow_downward</span>
         <p class="weatherDetail-value" >
-          {{ resumeForecast.temperatureMin.Value }}º
+          {{ Math.round(resumeForecast.temperatureMin.Value) }}º
         </p>
         <span class="material-icons weatherDetail-arrow">arrow_upward</span>
         <p class="weatherDetail-value">
-          {{ resumeForecast.temperatureMax.Value }}º
+          {{ Math.round(resumeForecast.temperatureMax.Value) }}º
         </p>
       </div>
       <p class="boxResult-weatherDetail">
         Sensação<span class="weatherDetail-value">
-          {{ resumeForecast.realFeelTemperature }}ºC
+          {{ Math.round(resumeForecast.realFeelTemperature) }}ºC
         </span>
       </p>
       <p class="boxResult-weatherDetail">
         Vento<span class="weatherDetail-value">
-          {{ windSpeed }}km/h
+          {{ Math.round(resumeForecast.windSpeed) }}km/h
         </span>
       </p>
       <p class="boxResult-weatherDetail">
         Humidade<span class="weatherDetail-value">
-          {{ resumeForecast.relativeHumidity }}%
+          {{ Math.round(resumeForecast.relativeHumidity) }}%
         </span>
       </p>
     </div>
@@ -144,6 +144,7 @@ export default {
   }
   .boxResult-weatherDetail--container{
     width: 72%;
+    max-width: 280px;
     margin: 0 15px;
     display: flex;
     flex-flow: row wrap;
